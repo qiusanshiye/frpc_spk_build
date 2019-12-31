@@ -1,0 +1,60 @@
+#!/bin/bash
+# Copyright (C) 2000-2016 Synology Inc. All rights reserved.
+
+### Use PKG_DIR as working directory.
+pkgname="gofrpc"
+PKG_DIR="/tmp/_${pkgname}_spk"
+rm -rf $PKG_DIR
+mkdir -p $PKG_DIR
+
+### get spk packing functions
+source /pkgscripts-ng/include/pkg_util.sh
+
+create_inner_tarball() {
+    local inner_tarball_dir=/tmp/_inner_tarball
+
+    ### clear destination directory
+    rm -rf $inner_tarball_dir && mkdir -p $inner_tarball_dir
+
+    ### install needed file into PKG_DIR
+    #make install DESTDIR="$inner_tarball_dir"
+    echo "==> create_inner_tarball.curpath: $(pwd)"
+    #cp -rf ${pkgname} ${inner_tarball_dir} || { echo "cp -rf ${pkgname} ${inner_tarball_dir} failed"; exit 1; }
+    cp -rf ./bin ${inner_tarball_dir}/
+    cp -rf ./ui ${inner_tarball_dir}/
+    cp -rf ./start.sh ${inner_tarball_dir}/
+    cp -rf ./stop.sh ${inner_tarball_dir}/
+    cp -rf ./config ${inner_tarball_dir}/ui/
+
+    ### create package.txz: $1=source_dir, $2=dest_dir
+    pkg_make_inner_tarball $inner_tarball_dir "${PKG_DIR}" || echo "pkg_make_inner_tarball $inner_tarball_dir ${PKG_DIR}"
+}
+
+create_spk(){
+    local scripts_dir=$PKG_DIR/scripts
+    local conf_dir=$PKG_DIR/conf
+
+    ### Copy Package Center scripts to PKG_DIR
+    mkdir -p $scripts_dir || echo "mkdir -p \$scripts_dir failed"
+    mkdir -p $conf_dir || echo "mkdir -p \$conf_dir failed"
+    cp -av scripts/* $scripts_dir || echo "cp -av scripts/* \$scripts_dir failed"
+    cp -av conf/* $conf_dir || echo "cp -av conf/* \$conf_dir failed"
+
+    ### Copy package icon
+    echo "==> create_spk.curpath: $(pwd)"
+    cp -av PACKAGE_ICON*.PNG $PKG_DIR || echo " cp -av PACKAGE_ICON*.PNG \$PKG_DIR failed"
+
+    ### Generate INFO file
+    ./INFO.sh > INFO || echo "export info failed."
+    cp INFO $PKG_DIR/INFO || echo "cp INFO \$PKG_DIR/INFO failed"
+
+    ### Create the final spk.
+    # pkg_make_spk <source path> <dest path> <spk file name>
+    # Please put the result spk into /image/packages
+    # spk name functions: pkg_get_spk_name pkg_get_spk_unified_name pkg_get_spk_family_name
+    mkdir -p /image/packages || echo "mkdir -p /image/packages failed."
+    pkg_make_spk ${PKG_DIR} "/image/packages" $(pkg_get_spk_family_name) || echo "pkg_make_spk \${PKG_DIR} failed"
+}
+
+create_inner_tarball
+create_spk

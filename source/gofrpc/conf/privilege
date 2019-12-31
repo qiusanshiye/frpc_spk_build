@@ -1,0 +1,11 @@
+{
+    "defaults":{
+        "run-as": "package"
+    },
+    "username": "ufrpc",
+    "ctrl-script": [{
+        "action": "stop",
+        "run-as": "package"
+    }]
+}
+

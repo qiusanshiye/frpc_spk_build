@@ -1,0 +1,14 @@
+{
+	".url": {
+		"SYNO.SDS.gofrpc": {
+			"type": "url",
+			"allUsers": true,
+			"title": "frpc-群晖内网穿透",
+			"desc": "内网穿透神器，开源frpc，个人整合为spk包，供大家使用。",
+			"icon": "images/icon_{0}.png",
+			"protocol": "http",
+			"url": "/static/#",
+			"port": "8760"
+		}
+	}
+}

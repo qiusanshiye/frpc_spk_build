@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# This script is used to start and stop a package, detect running status, and generate the log file.
+# Parameters used by the script are listed in below: start, stop, status
+
+PRIVATE_LOCATION="/var/packages/${SYNOPKG_PKGNAME}/target"
+START_FILE="./start.sh"
+STOP_FILE="./stop.sh"
+
+
+case $1 in
+    start)
+        cd ${PRIVATE_LOCATION}
+        /bin/sh ${START_FILE}
+    ;;
+    stop)
+        cd ${PRIVATE_LOCATION}
+        (/bin/sh ${STOP_FILE} &)
+    ;;
+    status)
+        cd ${PRIVATE_LOCATION}
+        ret=$(ps -ef | grep frpc | grep -v 'grep')
+        if [ -n "${ret}" ]; then
+            exit 0
+        else
+            exit 1
+        fi
+    ;;
+esac
+

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Package Center will call this script before uninstalling the old version of your package
+
+exit 0
+

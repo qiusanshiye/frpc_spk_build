@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Package Center will call this script after installing the new version of your package. 
+
+
+exit 0
+

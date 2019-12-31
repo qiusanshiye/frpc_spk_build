@@ -1,0 +1,47 @@
+#!/bin/sh
+
+SCRIPTPATH="${0%/*}"
+cd "${SCRIPTPATH}/.."
+APPPATH="$(pwd)"
+APPNAME="frpc"
+ARCHBINPATH="${APPPATH}/bin/arch"
+BINPATH="${APPPATH}/bin/${APPNAME}"
+
+_arch_select() {
+    ${BINPATH} -v && return 0
+    ls -1 ${ARCHBINPATH}/ | while read archbin
+    do
+        ${ARCHBINPATH}/${archbin} -v && {
+            ln -sf ${ARCHBINPATH}/${archbin} ${BINPATH}
+            break
+        }
+    done
+    [ -f ${BINPATHA} ] || return 2
+}
+
+_start() {
+    CONFPATH="${APPPATH}/bin/frpc.ini"
+    "${BINPATH}" -c "${CONFPATH}" >/dev/null &
+}
+
+_stop() {
+    kill -9 "$(pidof ${APPNAME})"
+    kill -11 "$(pidof ${APPNAME})"
+}
+
+_monitor() {
+    pidof "${APPNAME}" 2>/dev/null
+    if [ $? -ne 0 ] ; then
+        _stop
+        _start
+    fi
+}
+
+## main start
+inter=5
+_arch_select || exit 2
+while [ 1 -eq 1 ]
+do
+    _monitor
+    sleep "${inter}"
+done
