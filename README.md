@@ -30,7 +30,7 @@ cd pkgscripts-ng
 # tree -L 1
 .
 ├── build_env # 新增的目录，群晖的chroot打包签名环境
-├── gofrpc_build.sh
+├── gofrpc_build.sh # 一键打包脚本
 ├── LICENSE
 ├── pkgscripts-ng # 第2步中下载的打包工具
 ├── README.md
@@ -47,7 +47,7 @@ cp -rf ~/.gnupg ./build_env/ds.x64-6.0/root/
 
 ## 5. 开始一键打包
 - 先更新frpc最新版本
-> 在这里下载最新的frp包，解压后拷贝frpc到 ./source/gofrpc/bin/arch/目录下
+> 在[这里](https://github.com/fatedier/frp/releases)下载最新的frp包，解压后拷贝frpc到 ./source/gofrpc/bin/arch/目录下
 > 当前我已集成了frpc的0.30.0版本的程序
 
 - 再更新想要打包的spk的版本号
@@ -65,6 +65,7 @@ vim source/gofrpc/INFO.sh
 # 也可以在这里找到: ./result_spk/gofrpc-1.0.1/
 # 接下就可以上群晖套件中心手动安装试试啦
 ```
+如果不想部署这么简单(个鬼)的打包环境，也可以直接使用我已经打好的包, 点击项目[releases](https://github.com/qiusanshiye/frpc_spk_build/releases)下载
 
 ## 6. 环境部署与打包过程中可能会遇到的问题
 - 提示没有权限
@@ -75,5 +76,11 @@ vim source/gofrpc/INFO.sh
 > 在上述的第3步中执行EnvDeploy命令时，会输出下载链接，我们可以把用迅雷下载，完后拷贝到 toolkit_tarballs 目录。
 > 再次执行3步EnvDeploy命令即可.
 
+- 怎么打fprs的spk包
+> 拷贝一份本项目，把所有的 frpc文字 改成 frps
+> 将各个平台的frps可执行文件拷贝到这个目录：./source/gofrpc/bin/arch/
+> 执行一键打包脚本即可
+
 - 其他问题
 > 请移步[这里](http://blog.5941188.com/archives/%E7%BE%A4%E6%99%96%E5%A5%97%E4%BB%B6%E6%89%93%E5%8C%85)
+
