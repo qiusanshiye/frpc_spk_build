@@ -47,8 +47,8 @@ cp -rf ~/.gnupg ./build_env/ds.x64-6.0/root/
 
 ## 5. 开始一键打包
 - 先更新frpc最新版本
-> 在[这里](https://github.com/fatedier/frp/releases)下载最新的frp包，解压后拷贝frpc到 ./source/gofrpc/bin/arch/目录下
-> 当前我已集成了frpc的0.30.0版本的程序
+> - 在[这里](https://github.com/fatedier/frp/releases)下载最新的frp包，解压后拷贝frpc到 ./source/gofrpc/bin/arch/目录下
+> - 当前我已集成了frpc的0.30.0版本的程序
 
 - 再更新想要打包的spk的版本号
 ```
@@ -72,14 +72,14 @@ vim source/gofrpc/INFO.sh
 > 非root用户执行上述各步时，请使用 sudo 执行
 
 - 群晖镜像无法下载或者太慢
-> 建议屏蔽工具中的下载逻辑：打开 pkgscripts-ng/EnvDeploy, 注释：urllib.request.urlretrieve(url, dest, reporthook=reporthook) 这一行（大概在86行）
-> 在上述的第3步中执行EnvDeploy命令时，会输出下载链接，我们可以把用迅雷下载，完后拷贝到 toolkit_tarballs 目录。
-> 再次执行3步EnvDeploy命令即可.
+> - 建议屏蔽工具中的下载逻辑：打开 pkgscripts-ng/EnvDeploy, 注释：urllib.request.urlretrieve(url, dest, reporthook=reporthook) 这一行（大概在86行）
+> - 在上述的第3步中执行EnvDeploy命令时，会输出下载链接，我们可以把用迅雷下载，完后拷贝到 toolkit_tarballs 目录。
+> - 再次执行3步EnvDeploy命令即可.
 
-- 怎么打fprs的spk包
-> 拷贝一份本项目，把所有的 frpc文字 改成 frps
-> 将各个平台的frps可执行文件拷贝到这个目录：./source/gofrpc/bin/arch/
-> 执行一键打包脚本即可
+- 怎么打frps的spk包
+> - 拷贝一份本项目，把所有的 frpc文字 改成 frps.
+> - 将各个平台的frps可执行文件拷贝到这个目录：./source/gofrpc/bin/arch/
+> - 执行一键打包脚本即可
 
 - 其他问题
 > 请移步[这里](http://blog.5941188.com/archives/%E7%BE%A4%E6%99%96%E5%A5%97%E4%BB%B6%E6%89%93%E5%8C%85)
